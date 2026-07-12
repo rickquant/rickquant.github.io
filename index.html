@@ -11,13 +11,15 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='38' fill='none' stroke='%236fcabb' stroke-width='8'/><circle cx='50' cy='50' r='14' fill='%236fcabb'/></svg>">
 <style>
   :root {
-    --bg: #0b0f12;
-    --panel: #11171c;
-    --line: #1e2830;
-    --text: #d7e0e6;
+    --bg: #090d10;
+    --panel: #10161b;
+    --panel-2: #0c1216;
+    --line: #1d272f;
+    --text: #dbe4ea;
     --dim: #8fa1ab;
     --accent: #6fcabb;
     --accent-dim: #3d7a70;
+    --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html { scroll-behavior: smooth; }
@@ -29,61 +31,62 @@
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
   }
-  .wrap { max-width: 880px; margin: 0 auto; padding: 0 24px; }
+  .wrap { max-width: 1160px; margin: 0 auto; padding: 0 28px; }
+  a { color: var(--accent); }
 
-  /* campo de partículas del hero — mismo lenguaje visual que el HUD de Jarvis */
-  #campo {
-    position: absolute; top: 0; left: 0; width: 100%; height: 620px;
-    z-index: -1; pointer-events: none;
-    mask-image: linear-gradient(to bottom, black 55%, transparent 100%);
-    -webkit-mask-image: linear-gradient(to bottom, black 55%, transparent 100%);
+  /* ---------- nav ---------- */
+  nav {
+    position: absolute; top: 0; left: 0; right: 0; z-index: 5;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 26px 28px; max-width: 1160px; margin: 0 auto;
+    font: 600 12.5px var(--mono); letter-spacing: 2px; text-transform: uppercase;
   }
-  #halo {
-    position: absolute; z-index: -2; pointer-events: none;
-    top: -220px; right: -140px; width: 640px; height: 640px;
-    background: radial-gradient(circle, rgba(111,202,187,.10) 0%, transparent 62%);
-  }
-
-  /* reveal al scrollear (el JS lo activa; sin JS todo queda visible) */
-  .rev { opacity: 0; transform: translateY(18px); transition: opacity .65s ease, transform .65s ease; }
-  .rev.vis { opacity: 1; transform: none; }
-
-  @media (prefers-reduced-motion: reduce) {
-    .kicker::before { animation: none; }
-    .rev { opacity: 1; transform: none; transition: none; }
-    .card, .card:hover, .project, .project:hover { transform: none; }
-  }
-
-  header { padding: 88px 0 56px; }
-  .kicker {
-    color: var(--accent); font-size: 14px; letter-spacing: 2.5px;
-    text-transform: uppercase; margin-bottom: 18px;
-    display: flex; align-items: center; gap: 10px;
-  }
-  .kicker::before {
+  nav .logo { color: var(--text); text-decoration: none; display: flex; align-items: center; gap: 9px; }
+  nav .logo::before {
     content: ""; width: 8px; height: 8px; border-radius: 50%;
-    background: var(--accent); flex: none;
-    box-shadow: 0 0 10px var(--accent);
+    background: var(--accent); box-shadow: 0 0 10px var(--accent);
     animation: latido 2.6s ease-in-out infinite;
   }
+  nav .links { display: flex; gap: 26px; }
+  nav .links a { color: var(--dim); text-decoration: none; transition: color .15s; }
+  nav .links a:hover { color: var(--accent); }
   @keyframes latido {
     0%, 100% { opacity: .55; transform: scale(.85); }
     50% { opacity: 1; transform: scale(1.1); }
   }
-  h1 { font-size: clamp(30px, 5.5vw, 46px); font-weight: 700; line-height: 1.18; letter-spacing: -0.5px; }
-  h1 em { color: var(--accent); font-style: normal; }
-  .sub { color: var(--dim); font-size: 18px; margin-top: 18px; max-width: 620px; }
-  .chips { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 26px; }
-  .chip {
-    border: 1px solid var(--line); border-radius: 999px;
-    padding: 6px 14px; font-size: 13.5px; color: var(--dim);
+
+  /* ---------- hero (pantalla 1) ---------- */
+  .hero {
+    min-height: 100svh; position: relative;
+    display: flex; flex-direction: column; justify-content: center;
   }
-  .chip b { color: var(--text); font-weight: 600; }
-  .cta { margin-top: 34px; display: flex; flex-wrap: wrap; gap: 14px; }
+  #campo {
+    position: absolute; inset: 0; z-index: -1; pointer-events: none;
+    mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+  }
+  #halo {
+    position: absolute; z-index: -2; pointer-events: none;
+    top: -220px; right: -140px; width: 680px; height: 680px;
+    background: radial-gradient(circle, rgba(111,202,187,.10) 0%, transparent 62%);
+  }
+  .hero-inner { padding-top: 96px; }
+  .kicker {
+    color: var(--accent); font: 600 12.5px var(--mono); letter-spacing: 2.5px;
+    text-transform: uppercase; margin-bottom: 26px;
+  }
+  h1 {
+    font-size: clamp(42px, 7.6vw, 96px);
+    font-weight: 700; line-height: 1.02; letter-spacing: -0.03em;
+  }
+  h1 em { color: var(--accent); font-style: normal; }
+  h1 .l2 { color: var(--dim); }
+  .sub { color: var(--dim); font-size: clamp(16px, 1.6vw, 19px); margin-top: 26px; max-width: 560px; }
+  .cta { margin-top: 36px; display: flex; flex-wrap: wrap; gap: 14px; }
   .btn {
-    display: inline-block; padding: 12px 22px; border-radius: 8px;
+    display: inline-block; padding: 13px 24px; border-radius: 8px;
     font-size: 15px; font-weight: 600; text-decoration: none;
-    transition: transform .12s ease, background .12s ease;
+    transition: transform .12s ease, background .12s ease, border-color .12s ease;
   }
   .btn:hover { transform: translateY(-1px); }
   .btn.primary { background: var(--accent); color: #06211c; }
@@ -91,176 +94,466 @@
   .btn.ghost { border: 1px solid var(--line); color: var(--text); }
   .btn.ghost:hover { border-color: var(--accent-dim); }
 
-  section { padding: 52px 0; border-top: 1px solid var(--line); }
-  h2 { font-size: 24px; margin-bottom: 8px; letter-spacing: -0.3px; }
-  .lede { color: var(--dim); margin-bottom: 32px; max-width: 640px; }
+  /* la palabra gigante en partículas (momento supersolid) */
+  #marca {
+    display: block; width: 100%;
+    height: clamp(100px, 16vw, 220px);
+    margin: 40px 0 30px;
+  }
 
-  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+  /* ---------- secciones ---------- */
+  section { padding: 96px 0; }
+  .eyebrow {
+    color: var(--accent); font: 600 12px var(--mono); letter-spacing: 3px;
+    text-transform: uppercase; margin-bottom: 16px;
+  }
+  h2 { font-size: clamp(30px, 4.4vw, 54px); font-weight: 700; letter-spacing: -0.02em; line-height: 1.08; }
+  .lede { color: var(--dim); margin-top: 16px; max-width: 620px; font-size: 17px; }
+
+  /* reveal al scrollear (sin JS todo queda visible) */
+  .rev { opacity: 0; transform: translateY(18px); transition: opacity .65s ease, transform .65s ease; }
+  .rev.vis { opacity: 1; transform: none; }
+
+  /* ---------- THE PRODUCT: la "app" de Jarvis (pantalla 2) ---------- */
+  .app {
+    margin-top: 44px; position: relative;
+    display: flex; border: 1px solid var(--line); border-radius: 14px;
+    background: var(--panel-2); overflow: hidden;
+  }
+  .app::before, .app::after {   /* brackets de esquina, lenguaje instrumento */
+    content: ""; position: absolute; width: 22px; height: 22px; z-index: 4; pointer-events: none;
+    border: 1px solid var(--accent-dim);
+  }
+  .app::before { top: 10px; left: 10px; border-right: none; border-bottom: none; }
+  .app::after { bottom: 10px; right: 10px; border-left: none; border-top: none; }
+  .badge-live {
+    position: absolute; top: 14px; right: 16px; z-index: 4;
+    font: 600 10.5px var(--mono); letter-spacing: 2px; color: var(--accent);
+    display: flex; align-items: center; gap: 7px;
+  }
+  .badge-live::before {
+    content: ""; width: 6px; height: 6px; border-radius: 50%;
+    background: var(--accent); box-shadow: 0 0 8px var(--accent);
+    animation: latido 2s ease-in-out infinite;
+  }
+  .rail {
+    width: 188px; flex: none; border-right: 1px solid var(--line);
+    padding: 52px 16px 20px; display: flex; flex-direction: column; gap: 10px;
+    background: rgba(255,255,255,.012);
+  }
+  .tab {
+    font: 600 12px var(--mono); letter-spacing: 2px; text-transform: uppercase;
+    background: none; border: 1px solid var(--line); border-radius: 7px;
+    color: var(--dim); padding: 11px 14px; text-align: left; cursor: pointer;
+    transition: color .15s, border-color .15s, background .15s;
+  }
+  .tab:hover { color: var(--text); border-color: var(--accent-dim); }
+  .tab[aria-selected="true"] { background: var(--text); color: #0a0e11; border-color: var(--text); }
+  .stack { margin-top: auto; padding-top: 22px; }
+  .stack .rot { font: 600 10.5px var(--mono); letter-spacing: 2.5px; color: var(--dim); margin-bottom: 12px; }
+  .stack .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .stack .chips span {
+    font: 500 10.5px var(--mono); color: var(--dim);
+    border: 1px solid var(--line); border-radius: 5px; padding: 3px 7px;
+  }
+  .stage { flex: 1; position: relative; min-height: 540px; }
+  .pane { position: absolute; inset: 0; }
+  .pane[hidden] { display: none; }
+
+  /* -- pipeline -- */
+  .pane.pipeline {
+    background-image: radial-gradient(rgba(255,255,255,.06) 1px, transparent 1.3px);
+    background-size: 22px 22px;
+  }
+  #wires { position: absolute; inset: 0; width: 100%; height: 100%; }
+  #wires path {
+    fill: none; stroke: var(--line); stroke-width: 1.5;
+    transition: stroke .3s ease;
+  }
+  #wires path.lit { stroke: var(--accent-dim); }
+  #wires path.hot {
+    stroke: var(--accent); stroke-dasharray: 7 9;
+    animation: flujo .7s linear infinite;
+  }
+  @keyframes flujo { to { stroke-dashoffset: -16; } }
+  .nodo {
+    position: absolute; width: 158px;
+    background: var(--panel); border: 1px solid var(--line); border-radius: 10px;
+    padding: 13px 14px 12px;
+    transition: border-color .35s ease, box-shadow .35s ease;
+  }
+  .nodo .ic {
+    width: 30px; height: 30px; border: 1px solid var(--line); border-radius: 8px;
+    display: grid; place-items: center; color: var(--dim); margin-bottom: 9px;
+    transition: color .35s, border-color .35s;
+  }
+  .nodo h4 { font: 600 12px var(--mono); letter-spacing: 1.8px; }
+  .nodo .subn { color: var(--dim); font: 500 11px var(--mono); margin-top: 3px; display: block; min-height: 15px; transition: color .3s; }
+  .nodo.on { border-color: var(--accent); box-shadow: 0 0 0 1px rgba(111,202,187,.22), 0 0 30px rgba(111,202,187,.13); }
+  .nodo.on .ic { color: var(--accent); border-color: var(--accent-dim); }
+  .nodo .subn.flash { color: var(--accent); }
+  #n-hear  { left: 3%;  top: 40%; }
+  #n-think { left: 26%; top: 40%; }
+  #n-act   { left: 53%; top: 9%; }
+  #n-mem   { left: 53%; bottom: 9%; }
+  #n-speak { left: 79%; top: 40%; }
+  .reqchip {
+    position: absolute; top: 18px; left: 18px; z-index: 3;
+    display: flex; align-items: center; gap: 9px;
+    border: 1px solid var(--line); border-radius: 8px; background: rgba(9,13,16,.85);
+    padding: 8px 13px; font: 500 12.5px var(--mono); color: var(--text);
+    min-width: 240px; min-height: 36px;
+  }
+  .reqchip::before {
+    content: ""; width: 7px; height: 7px; border-radius: 50%; flex: none;
+    background: var(--accent); box-shadow: 0 0 8px var(--accent);
+    animation: latido 1.6s ease-in-out infinite;
+  }
+  #cursorj {
+    position: absolute; z-index: 4; pointer-events: none;
+    transition: left .7s cubic-bezier(.3,.9,.35,1), top .7s cubic-bezier(.3,.9,.35,1);
+    left: 6%; top: 62%;
+  }
+  #cursorj svg { display: block; filter: drop-shadow(0 2px 6px rgba(0,0,0,.6)); }
+  #cursorj .tagj {
+    font: 600 10px var(--mono); letter-spacing: 1.5px; color: #06211c;
+    background: var(--accent); border-radius: 4px; padding: 2px 7px;
+    margin: 2px 0 0 12px; display: inline-block;
+  }
+
+  /* -- chat -- */
+  .pane.chat { display: flex; align-items: center; justify-content: center; padding: 60px 24px 30px; }
+  .pane.chat[hidden] { display: none; }
+  .chatbox {
+    width: min(560px, 100%); border: 1px solid var(--line); border-radius: 12px;
+    background: var(--panel); overflow: hidden;
+  }
+  .chatbox .chead {
+    display: flex; align-items: center; gap: 9px;
+    padding: 12px 16px; border-bottom: 1px solid var(--line);
+    font: 600 11px var(--mono); letter-spacing: 2px; color: var(--dim);
+  }
+  .chatbox .chead::before {
+    content: ""; width: 6px; height: 6px; border-radius: 50%;
+    background: var(--accent); box-shadow: 0 0 8px var(--accent);
+  }
+  #msgs { padding: 18px 16px; min-height: 320px; display: flex; flex-direction: column; gap: 10px; }
+  .msg {
+    max-width: 82%; padding: 9px 14px; border-radius: 10px;
+    font-size: 14px; line-height: 1.5; animation: aparecer .3s ease;
+  }
+  @keyframes aparecer { from { opacity: 0; transform: translateY(6px); } }
+  .msg.u { align-self: flex-end; border: 1px solid var(--accent-dim); color: var(--text); background: rgba(111,202,187,.06); }
+  .msg.j { align-self: flex-start; background: var(--panel-2); border: 1px solid var(--line); color: var(--dim); }
+  .msg.j b { color: var(--accent); font-weight: 600; }
+  .msg.typing { color: var(--accent); letter-spacing: 3px; }
+
+  /* -- demo -- */
+  .pane.demo { display: flex; align-items: center; justify-content: center; padding: 56px 26px 26px; }
+  .pane.demo[hidden] { display: none; }
+  .demoframe { position: relative; width: min(760px, 100%); border-radius: 12px; overflow: hidden; border: 1px solid var(--line); }
+  .demoframe img { display: block; width: 100%; filter: brightness(.38) saturate(.9); }
+  .demoveil {
+    position: absolute; inset: 0; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 14px; text-align: center; padding: 20px;
+  }
+  .demoveil .play {
+    width: 62px; height: 62px; border-radius: 50%; border: 1px solid var(--accent);
+    display: grid; place-items: center; color: var(--accent);
+    box-shadow: 0 0 34px rgba(111,202,187,.18);
+  }
+  .demoveil b { font-size: 17px; }
+  .demoveil span { color: var(--dim); font-size: 13.5px; max-width: 420px; }
+
+  /* ---------- bento (pantalla 3) ---------- */
+  .bento { display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; margin-top: 44px; }
   .card {
-    background: var(--panel); border: 1px solid var(--line);
-    border-radius: 12px; padding: 24px;
+    background: var(--panel); border: 1px solid var(--line); border-radius: 14px;
+    padding: 26px; position: relative;
     transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
   }
   .card:hover {
     transform: translateY(-3px); border-color: var(--accent-dim);
     box-shadow: 0 12px 32px rgba(0,0,0,.35), 0 0 0 1px rgba(111,202,187,.08) inset;
   }
-  .card h3 { font-size: 17px; margin-bottom: 10px; }
-  .card p { color: var(--dim); font-size: 15px; }
-  .card .ico { font-size: 22px; margin-bottom: 14px; display: block; }
+  .card .tag {
+    color: var(--accent); font: 600 11px var(--mono); letter-spacing: 2px;
+    text-transform: uppercase; display: block; margin-bottom: 12px;
+  }
+  .card h3 { font-size: 19px; letter-spacing: -0.2px; }
+  .card p { color: var(--dim); font-size: 14.5px; margin-top: 8px; }
+  .card .links { margin-top: 16px; display: flex; flex-wrap: wrap; gap: 16px; align-items: center; }
+  .card .links a { color: var(--accent); text-decoration: none; font-size: 14px; font-weight: 600; }
+  .card .links a:hover { text-decoration: underline; }
+  .card .links .soon { color: var(--dim); font-size: 13.5px; }
+  .s3 { grid-column: span 3; }
+  .s2 { grid-column: span 2; }
+  .s4 { grid-column: span 4; }
+  .s6 { grid-column: span 6; }
 
-  .project {
-    background: var(--panel); border: 1px solid var(--line);
-    border-radius: 14px; padding: 28px; margin-bottom: 20px;
-    transition: border-color .18s ease, box-shadow .18s ease;
-  }
-  .project:hover {
-    border-color: var(--accent-dim);
-    box-shadow: 0 14px 40px rgba(0,0,0,.35);
-  }
-  .project h3 { font-size: 20px; }
-  .project .tag {
-    color: var(--accent); font-size: 12.5px; letter-spacing: 1.5px;
-    text-transform: uppercase; display: block; margin-bottom: 10px;
-  }
-  .project p { color: var(--dim); margin-top: 10px; }
-  .project .links { margin-top: 16px; display: flex; flex-wrap: wrap; gap: 16px; }
-  .project .links a { color: var(--accent); text-decoration: none; font-size: 14.5px; font-weight: 600; }
-  .project .links a:hover { text-decoration: underline; }
-  .project .links .soon { color: var(--dim); font-size: 14.5px; }
-  .shot {
-    width: 100%; border-radius: 10px; border: 1px solid var(--line);
-    margin-top: 20px; display: block;
-    transition: box-shadow .3s ease, border-color .3s ease;
-  }
-  .project:hover .shot {
-    border-color: var(--accent-dim);
-    box-shadow: 0 0 44px rgba(111,202,187,.10);
+  .svc { list-style: none; margin-top: 6px; }
+  .svc li { display: flex; gap: 12px; padding: 9px 0; color: var(--dim); font-size: 14.5px; align-items: baseline; }
+  .svc li + li { border-top: 1px solid var(--line); }
+  .svc b { color: var(--text); font-weight: 600; }
+  .svc .em { flex: none; }
+
+  .clockcard { display: flex; flex-direction: column; justify-content: space-between; gap: 18px; }
+  #reloj { font: 300 clamp(30px, 3vw, 40px) var(--mono); letter-spacing: 2px; color: var(--text); }
+  .clockcard .zona { color: var(--dim); font: 500 11.5px var(--mono); letter-spacing: 1.5px; margin-top: 4px; }
+  .avail { display: flex; align-items: center; gap: 9px; color: var(--text); font-size: 13.5px; font-weight: 600; }
+  .avail::before {
+    content: ""; width: 8px; height: 8px; border-radius: 50%; flex: none;
+    background: var(--accent); box-shadow: 0 0 10px var(--accent);
+    animation: latido 2.6s ease-in-out infinite;
   }
 
-  .how li { color: var(--dim); margin: 12px 0 12px 22px; }
-  .how li::marker { color: var(--accent); }
-  .how b { color: var(--text); }
+  .how { list-style: none; margin-top: 6px; display: grid; grid-template-columns: 1fr 1fr; gap: 6px 22px; }
+  .how li { color: var(--dim); font-size: 14px; padding: 8px 0; }
+  .how b { color: var(--text); display: block; font-size: 14.5px; }
 
-  footer { border-top: 1px solid var(--line); padding: 48px 0 72px; }
-  footer .row { display: flex; flex-wrap: wrap; gap: 24px; align-items: center; justify-content: space-between; }
-  footer a { color: var(--accent); text-decoration: none; font-weight: 600; }
-  footer a:hover { text-decoration: underline; }
-  footer .fine { color: var(--dim); font-size: 13.5px; margin-top: 20px; }
+  .contact-card { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px; }
+  .contact-card h3 { font-size: clamp(22px, 2.6vw, 30px); }
+  .contact-card p { margin-top: 6px; }
+  .contact-card .cta { margin-top: 0; }
 
-  @media (max-width: 560px) {
-    header { padding: 56px 0 40px; }
+  footer { border-top: 1px solid var(--line); padding: 34px 0 60px; }
+  footer .fine { color: var(--dim); font-size: 13px; }
+
+  /* ---------- reduced motion ---------- */
+  @media (prefers-reduced-motion: reduce) {
+    nav .logo::before, .badge-live::before, .reqchip::before, .avail::before { animation: none; }
+    .rev { opacity: 1; transform: none; transition: none; }
+    .card, .card:hover { transform: none; }
+    #wires path.hot { animation: none; stroke-dasharray: none; }
+    #cursorj { display: none; }
+    .msg { animation: none; }
+  }
+
+  /* ---------- mobile ---------- */
+  @media (max-width: 860px) {
+    section { padding: 72px 0; }
+    .app { flex-direction: column; }
+    .rail { width: auto; flex-direction: row; align-items: center; padding: 16px; gap: 8px; border-right: none; border-bottom: 1px solid var(--line); }
+    .tab { padding: 9px 12px; }
+    .stack { display: none; }
+    .stage { min-height: 0; }
+    .pane { position: static; }
+    .pane.pipeline { padding: 64px 18px 22px; display: flex; flex-direction: column; }
+    #wires, #cursorj { display: none; }
+    .nodo { position: relative !important; left: auto !important; top: auto !important; bottom: auto !important; width: 100%; }
+    .nodo + .nodo { margin-top: 30px; }
+    .nodo + .nodo::before {
+      content: ""; position: absolute; left: 28px; top: -31px; height: 30px;
+      border-left: 1px dashed var(--accent-dim);
+    }
+    .reqchip { top: 74px; left: 18px; right: 18px; min-width: 0; }
+    .pane.pipeline .reqchip { position: static; order: -1; margin-bottom: 22px; }
+    .bento { grid-template-columns: 1fr; }
+    .s2, .s3, .s4, .s6 { grid-column: auto; }
+    .how { grid-template-columns: 1fr; }
+    nav .links { display: none; }
   }
 </style>
 </head>
 <body>
 
-<canvas id="campo" aria-hidden="true"></canvas>
-<div id="halo" aria-hidden="true"></div>
+<nav>
+  <a class="logo" href="#">rickquant</a>
+  <div class="links">
+    <a href="#product">The product</a>
+    <a href="#proof">Proof</a>
+    <a href="https://github.com/rickquant">GitHub ↗</a>
+    <a href="mailto:charlesrickzelaya@gmail.com">Contact</a>
+  </div>
+</nav>
 
-<div class="wrap">
-  <header>
-    <div class="kicker">Charles Rick Zelaya · AI developer</div>
-    <h1>I build AI assistants that <em>remember</em> and automations that <em>watch things for you</em>.</h1>
-    <p class="sub">Industrial &amp; Systems Engineering student, self-taught Python developer. Everything I build is public — you can read the code, not just the promises.</p>
-    <div class="chips">
-      <span class="chip"><b>English &amp; Spanish</b> — bilingual builds</span>
-      <span class="chip"><b>GMT-6</b> — US-friendly hours</span>
-      <span class="chip"><b>Open to freelance work</b></span>
-    </div>
+<!-- ============ pantalla 1: hero ============ -->
+<div class="hero">
+  <canvas id="campo" aria-hidden="true"></canvas>
+  <div id="halo" aria-hidden="true"></div>
+  <div class="wrap hero-inner">
+    <div class="kicker">Charles Rick Zelaya · AI developer · EN/ES · Honduras (GMT-6)</div>
+    <h1>Assistants that <em>remember</em>.<br><span class="l2">Automations that watch.</span></h1>
+    <p class="sub">Personal AI built in public. Everything on this page links to code you can read — proof, not promises.</p>
     <div class="cta">
-      <a class="btn primary" href="mailto:charlesrickzelaya@gmail.com">Get in touch</a>
-      <a class="btn ghost" href="https://github.com/rickquant">See my code on GitHub</a>
+      <a class="btn primary" href="#product">Meet Jarvis</a>
+      <a class="btn ghost" href="mailto:charlesrickzelaya@gmail.com">Get in touch</a>
     </div>
-  </header>
-
-  <section>
-    <h2>What I can build for you</h2>
-    <p class="lede">In plain terms — no jargon required on your side.</p>
-    <div class="grid">
-      <div class="card">
-        <span class="ico">🧠</span>
-        <h3>Assistants with real memory</h3>
-        <p>An AI that knows your business, remembers past conversations and decisions, and picks up where you left off — on your data, under your control.</p>
-      </div>
-      <div class="card">
-        <span class="ico">👁️</span>
-        <h3>Automations that watch for you</h3>
-        <p>Deadlines, portals, inboxes, dashboards: small reliable robots that check so you don't have to, and message you only when something needs attention.</p>
-      </div>
-      <div class="card">
-        <span class="ico">🔌</span>
-        <h3>AI wired into your tools</h3>
-        <p>Claude and other AI models connected to what you already use — Telegram, spreadsheets, your website — with security designed in from day one, not bolted on.</p>
-      </div>
-    </div>
-  </section>
-
-  <section>
-    <h2>Proof, not promises</h2>
-    <p class="lede">Three public projects. All the code is on GitHub.</p>
-
-    <div class="project">
-      <span class="tag">Flagship · AI assistant</span>
-      <h3>Jarvis — a voice assistant with a movie-grade interface</h3>
-      <p>Say <i>"jarvis"</i> and talk. It answers out loud, remembers who I am and what I'm working on across sessions, gives me a spoken briefing every morning (weather, deadlines, reminders), plays the exact song I ask for, and can look at my screen when I need a hand. Fully bilingual. Runs on a laptop at <b>$0/month</b>.</p>
-      <img class="shot" src="jarvis-hud.png" alt="The Jarvis HUD booting up: the J.A.R.V.I.S. signature materializes in particles over an animated reactor, with the morning briefing card on screen." width="1600" height="900" loading="lazy">
-      <div class="links">
-        <a href="https://github.com/rickquant/jarvis">View the code →</a>
-        <span class="soon">🎬 Video demo: coming this week</span>
-      </div>
-    </div>
-
-    <div class="project">
-      <span class="tag">Automation</span>
-      <h3>Canvas Watcher — never miss a deadline</h3>
-      <p>A bot that checks my university's portal and messages me on Telegram before assignments are due. Boring, reliable, and exactly the kind of thing that saves real hours every week — the same pattern works for invoices, orders, or any portal you're tired of checking.</p>
-      <div class="links">
-        <a href="https://github.com/rickquant/canvas-automation">View the code →</a>
-      </div>
-    </div>
-
-    <div class="project">
-      <span class="tag">Honest engineering</span>
-      <h3>Quantito — a trading bot, and why it failed</h3>
-      <p>A crypto trading bot that looked brilliant in testing and lost in the real market. I published the full honest post-mortem instead of hiding it — because understanding <i>why</i> systems fail is what it takes to build ones that don't. If you hire me, this is the level of honesty you get.</p>
-      <div class="links">
-        <a href="https://github.com/rickquant/quantito">Read the post-mortem →</a>
-      </div>
-    </div>
-  </section>
-
-  <section>
-    <h2>How I work</h2>
-    <ul class="how">
-      <li><b>Plain language.</b> You describe the problem in your words; I handle the technical part and explain decisions without jargon.</li>
-      <li><b>Small first step.</b> We start with a small, fixed scope so you can judge the work before committing to anything bigger.</li>
-      <li><b>Everything visible.</b> Code in a repository you can access from day one — progress you can see, not status reports you have to trust.</li>
-      <li><b>Security by design.</b> My assistants run on allowlists: they can only do what's explicitly permitted. Ask me about it — it's my favorite subject.</li>
-    </ul>
-  </section>
-
-  <footer>
-    <div class="row">
-      <div>
-        <b>Let's talk about your project.</b><br>
-        <a href="mailto:charlesrickzelaya@gmail.com">charlesrickzelaya@gmail.com</a>
-      </div>
-      <div>
-        <a href="https://github.com/rickquant">GitHub</a>
-      </div>
-    </div>
-    <p class="fine">Charles Rick Zelaya · Tegucigalpa, Honduras (GMT-6) · This page is hand-built — no template, no tracker, loads in one request. Even these particles are hand-coded.</p>
-  </footer>
+    <canvas id="marca" aria-hidden="true"></canvas>
+  </div>
 </div>
+
+<!-- ============ pantalla 2: THE PRODUCT ============ -->
+<section id="product">
+  <div class="wrap">
+    <div class="eyebrow">The product · runs every day on my machine</div>
+    <h2>Meet Jarvis. Say the word — <br>it does the rest.</h2>
+    <p class="lede">A voice assistant with persistent memory and a film-grade interface, built from scratch. This is how a request actually moves through it:</p>
+
+    <div class="app" id="app">
+      <span class="badge-live">LIVE</span>
+      <div class="rail" role="tablist" aria-label="Jarvis views">
+        <button class="tab" role="tab" aria-selected="true" data-tab="pipeline">Pipeline</button>
+        <button class="tab" role="tab" aria-selected="false" data-tab="chat">Chat</button>
+        <button class="tab" role="tab" aria-selected="false" data-tab="demo">Demo</button>
+        <div class="stack">
+          <div class="rot">STACK</div>
+          <div class="chips">
+            <span>Claude</span><span>Apple Speech</span><span>Obsidian</span><span>AppleScript</span><span>Flask</span><span>Python</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="stage">
+        <!-- pipeline -->
+        <div class="pane pipeline" data-pane="pipeline">
+          <div class="reqchip"><span id="reqtext">&nbsp;</span></div>
+          <svg id="wires" aria-hidden="true"></svg>
+
+          <div class="nodo" id="n-hear">
+            <div class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a3 3 0 0 1 3 3v5a3 3 0 0 1-6 0V6a3 3 0 0 1 3-3z"/><path d="M6 11a6 6 0 0 0 12 0M12 17v4"/></svg></div>
+            <h4>HEARS YOU</h4>
+            <span class="subn" data-base="on-device speech">on-device speech</span>
+          </div>
+          <div class="nodo" id="n-think">
+            <div class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M12 2.5l2.1 5.9 5.9 2.1-5.9 2.1L12 18.5l-2.1-5.9L4 10.5l5.9-2.1z"/></svg></div>
+            <h4>THINKS</h4>
+            <span class="subn" data-base="Claude">Claude</span>
+          </div>
+          <div class="nodo" id="n-act">
+            <div class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8z"/></svg></div>
+            <h4>ACTS</h4>
+            <span class="subn" data-base="music · browser · timers">music · browser · timers</span>
+          </div>
+          <div class="nodo" id="n-mem">
+            <div class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h11a2 2 0 0 1 2 2v14H7a2 2 0 0 1-2-2V4z"/><path d="M9 4v14"/></svg></div>
+            <h4>REMEMBERS</h4>
+            <span class="subn" data-base="your notes, forever">your notes, forever</span>
+          </div>
+          <div class="nodo" id="n-speak">
+            <div class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4 10v4M8 7v10M12 4v16M16 7v10M20 10v4"/></svg></div>
+            <h4>SPEAKS</h4>
+            <span class="subn" data-base="neural voice">neural voice</span>
+          </div>
+
+          <div id="cursorj" aria-hidden="true">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="#6fcabb"><path d="M4 2l16 8-7 2-3 7z"/></svg>
+            <span class="tagj">JARVIS</span>
+          </div>
+        </div>
+
+        <!-- chat -->
+        <div class="pane chat" data-pane="chat" hidden>
+          <div class="chatbox">
+            <div class="chead">J.A.R.V.I.S. — LIVE SESSION</div>
+            <div id="msgs"></div>
+          </div>
+        </div>
+
+        <!-- demo -->
+        <div class="pane demo" data-pane="demo" hidden>
+          <div class="demoframe">
+            <img src="jarvis-hud.png" alt="The Jarvis HUD: the J.A.R.V.I.S. signature materializing in particles over an animated reactor." width="1600" height="900" loading="lazy">
+            <div class="demoveil">
+              <div class="play"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
+              <b>Demo film — being shot this week.</b>
+              <span>The interface you just played with is code. The film shows the real thing running: voice in, voice out, morning briefing and all.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ pantalla 3: bento ============ -->
+<section id="proof">
+  <div class="wrap">
+    <div class="eyebrow">Proof, not promises</div>
+    <h2>Three public projects.<br><span style="color:var(--dim)">All the code is on GitHub.</span></h2>
+
+    <div class="bento">
+      <div class="card s3">
+        <span class="tag">Flagship · voice assistant</span>
+        <h3>Jarvis</h3>
+        <p>Say <i>"jarvis"</i> and talk. It answers out loud, remembers you across sessions, briefs you every morning, plays the exact song you ask for — and runs on a laptop at <b>$0/month</b>. Fully bilingual.</p>
+        <div class="links">
+          <a href="https://github.com/rickquant/jarvis">View the code →</a>
+          <span class="soon">🎬 Film: this week</span>
+        </div>
+      </div>
+
+      <div class="card s3">
+        <span class="tag">Automation</span>
+        <h3>Canvas Watcher</h3>
+        <p>Checks my university's portal and messages me on Telegram before assignments are due. Boring and reliable — the same pattern works for invoices, orders, or any portal you're tired of checking.</p>
+        <div class="links"><a href="https://github.com/rickquant/canvas-automation">View the code →</a></div>
+      </div>
+
+      <div class="card s2">
+        <span class="tag">Honest engineering</span>
+        <h3>Quantito</h3>
+        <p>A trading bot that won in testing and lost in the real market. I published the full post-mortem instead of hiding it — that's the honesty you get if you hire me.</p>
+        <div class="links"><a href="https://github.com/rickquant/quantito">Read the post-mortem →</a></div>
+      </div>
+
+      <div class="card s4">
+        <span class="tag">What I build for clients</span>
+        <ul class="svc">
+          <li><span class="em">🧠</span><span><b>Assistants with real memory</b> — they know your business and pick up where you left off. On your data, under your control.</span></li>
+          <li><span class="em">👁️</span><span><b>Automations that watch for you</b> — deadlines, inboxes, portals. They ping you only when something needs attention.</span></li>
+          <li><span class="em">🔌</span><span><b>AI wired into your tools</b> — Telegram, spreadsheets, your website. Security designed in from day one.</span></li>
+        </ul>
+      </div>
+
+      <div class="card s2 clockcard">
+        <div>
+          <span class="tag">Local time</span>
+          <div id="reloj">--:--:--</div>
+          <div class="zona">TEGUCIGALPA, HONDURAS · GMT-6</div>
+        </div>
+        <div class="avail">Available for freelance work · EN/ES</div>
+      </div>
+
+      <div class="card s4">
+        <span class="tag">How I work</span>
+        <ul class="how">
+          <li><b>Plain language.</b> You describe the problem in your words; I explain decisions without jargon.</li>
+          <li><b>Small first step.</b> A small fixed scope first, so you can judge the work before committing bigger.</li>
+          <li><b>Everything visible.</b> Code in a repo you can access from day one.</li>
+          <li><b>Security by design.</b> My assistants run on allowlists: they can only do what's explicitly permitted.</li>
+        </ul>
+      </div>
+
+      <div class="card s6 contact-card">
+        <div>
+          <h3>Let's talk about your project.</h3>
+          <p>Tell me what eats your time — I'll tell you if an assistant or an automation can take it over.</p>
+        </div>
+        <div class="cta">
+          <a class="btn primary" href="mailto:charlesrickzelaya@gmail.com">charlesrickzelaya@gmail.com</a>
+          <a class="btn ghost" href="https://github.com/rickquant">GitHub</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p class="fine">Charles Rick Zelaya · Tegucigalpa, Honduras (GMT-6) · This page is hand-built — no template, no framework, no tracker; it loads in one request. Even the particles and the pipeline you just watched are hand-coded.</p>
+  </div>
+</footer>
 
 <script>
 (function () {
+  "use strict";
   var quieto = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var $ = function (s) { return document.querySelector(s); };
 
-  /* --- reveal al scrollear (progresivo: sin JS/IO todo queda visible) --- */
+  /* ================= reveal al scrollear ================= */
   if (!quieto && "IntersectionObserver" in window) {
-    var els = document.querySelectorAll(".card, .project, .how li");
+    var els = document.querySelectorAll(".card, .lede, .eyebrow, h2");
     var io = new IntersectionObserver(function (entradas) {
       entradas.forEach(function (e) {
         if (e.isIntersecting) { e.target.classList.add("vis"); io.unobserve(e.target); }
@@ -273,58 +566,362 @@
     });
   }
 
-  /* --- campo de partículas del hero (lenguaje del HUD de Jarvis) --- */
-  var cv = document.getElementById("campo");
-  if (quieto || !cv.getContext) { cv.remove(); return; }
-  var cx = cv.getContext("2d"), W, H, DPR, parts = [], visible = true, mx = 0.5;
-
-  function medir() {
-    DPR = Math.min(devicePixelRatio || 1, 1.5);
-    W = cv.clientWidth; H = cv.clientHeight;
-    cv.width = W * DPR; cv.height = H * DPR;
-    cx.setTransform(DPR, 0, 0, DPR, 0, 0);
+  /* ================= reloj de Tegucigalpa ================= */
+  var reloj = $("#reloj");
+  function tic() {
+    try {
+      reloj.textContent = new Date().toLocaleTimeString("en-GB", { timeZone: "America/Tegucigalpa", hour12: false });
+    } catch (e) {
+      reloj.textContent = new Date().toLocaleTimeString("en-GB", { hour12: false });
+    }
   }
-  function sembrar() {
-    parts = [];
-    var n = Math.min(90, Math.floor(W / 14));
-    for (var i = 0; i < n; i++) {
-      var z = 0.25 + Math.random() * 0.75;   /* profundidad: tamaño+brillo+velocidad */
-      parts.push({
-        x: Math.random() * W, y: Math.random() * H, z: z,
-        vx: (Math.random() - 0.5) * 0.12 * z,
-        vy: -(0.05 + Math.random() * 0.16) * z,
-        f: Math.random() * Math.PI * 2,
-        cuad: Math.random() < 0.35            /* algunas cuadradas, como el toro */
+  if (reloj) { tic(); setInterval(tic, 1000); }
+
+  /* ================= campo ambiente del hero ================= */
+  var cv = $("#campo");
+  if (cv && cv.getContext && !quieto) {
+    (function () {
+      var cx = cv.getContext("2d"), W, H, DPR, parts = [], visible = true, mx = 0.5;
+      function medir() {
+        DPR = Math.min(devicePixelRatio || 1, 1.5);
+        W = cv.clientWidth; H = cv.clientHeight;
+        cv.width = W * DPR; cv.height = H * DPR;
+        cx.setTransform(DPR, 0, 0, DPR, 0, 0);
+      }
+      function sembrar() {
+        parts = [];
+        var n = Math.min(70, Math.floor(W / 18));
+        for (var i = 0; i < n; i++) {
+          var z = 0.25 + Math.random() * 0.75;
+          parts.push({
+            x: Math.random() * W, y: Math.random() * H, z: z,
+            vx: (Math.random() - 0.5) * 0.12 * z,
+            vy: -(0.05 + Math.random() * 0.16) * z,
+            f: Math.random() * Math.PI * 2,
+            cuad: Math.random() < 0.35
+          });
+        }
+      }
+      addEventListener("resize", function () { medir(); sembrar(); });
+      addEventListener("mousemove", function (e) { mx = e.clientX / innerWidth; }, { passive: true });
+      document.addEventListener("visibilitychange", function () { visible = !document.hidden; });
+      var t = 0;
+      function frame() {
+        requestAnimationFrame(frame);
+        if (!visible || scrollY > H) return;
+        t += 0.016;
+        cx.clearRect(0, 0, W, H);
+        var deriva = (mx - 0.5) * 0.3;
+        for (var i = 0; i < parts.length; i++) {
+          var p = parts[i];
+          p.x += p.vx + deriva * p.z;
+          p.y += p.vy;
+          if (p.y < -4) { p.y = H + 4; p.x = Math.random() * W; }
+          if (p.x < -4) p.x = W + 4; else if (p.x > W + 4) p.x = -4;
+          cx.globalAlpha = (0.3 + 0.28 * Math.sin(t * 1.4 + p.f)) * p.z;
+          cx.fillStyle = "#6fcabb";
+          var s = 1 + p.z * 1.5;
+          if (p.cuad) cx.fillRect(p.x, p.y, s, s);
+          else { cx.beginPath(); cx.arc(p.x, p.y, s / 2, 0, 7); cx.fill(); }
+        }
+        cx.globalAlpha = 1;
+      }
+      medir(); sembrar(); frame();
+    })();
+  } else if (cv) { cv.remove(); }
+
+  /* ================= la palabra RICKQUANT en partículas ================= */
+  var mk = $("#marca");
+  if (mk && mk.getContext) {
+    (function () {
+      var mcx = mk.getContext("2d"), W, H, DPR, pts = [], t0 = 0, listo = false, visible = true;
+      var PALABRA = "RICKQUANT";
+      function muestrear() {
+        DPR = Math.min(devicePixelRatio || 1, 1.5);
+        W = mk.clientWidth; H = mk.clientHeight;
+        if (!W || !H) { listo = false; return; }   /* canvas oculto o sin layout: no hay nada que muestrear */
+        mk.width = W * DPR; mk.height = H * DPR;
+        mcx.setTransform(DPR, 0, 0, DPR, 0, 0);
+        /* texto en canvas oculto → puntos destino */
+        var off = document.createElement("canvas");
+        var ox = off.getContext("2d");
+        off.width = W; off.height = H;
+        var fs = H * 0.9;
+        ox.font = "800 " + fs + "px -apple-system, 'Helvetica Neue', Arial, sans-serif";
+        var anchoTx = ox.measureText(PALABRA).width;
+        fs = Math.min(fs, fs * (W * 0.98) / anchoTx);
+        ox.font = "800 " + fs + "px -apple-system, 'Helvetica Neue', Arial, sans-serif";
+        ox.textBaseline = "middle"; ox.textAlign = "center";
+        ox.fillStyle = "#fff";
+        ox.fillText(PALABRA, W / 2, H / 2);
+        var img = ox.getImageData(0, 0, W, H).data;
+        var paso = 4;
+        pts = [];
+        for (var intento = 0; intento < 3; intento++) {
+          pts = [];
+          for (var y = 0; y < H; y += paso) {
+            for (var x = 0; x < W; x += paso) {
+              if (img[(y * W + x) * 4 + 3] > 128) {
+                pts.push({
+                  tx: x, ty: y,
+                  sx: Math.random() * W, sy: Math.random() * H * 2 - H * 0.5,
+                  d: (x / W) * 1100 + Math.random() * 260,   /* barrido L→R como el HUD */
+                  f: Math.random() * Math.PI * 2,
+                  blanca: Math.random() < 0.06
+                });
+              }
+            }
+          }
+          if (pts.length <= 2800) break;
+          paso++;
+        }
+        t0 = performance.now();
+        listo = true;
+      }
+      function pintar(estatico) {
+        mcx.clearRect(0, 0, W, H);
+        var ahora = performance.now() - t0;
+        for (var i = 0; i < pts.length; i++) {
+          var p = pts[i];
+          /* animación por tiempo, no por frame: converge igual a cualquier framerate */
+          var u = estatico ? 1 : Math.min(1, Math.max(0, (ahora - p.d) / 950));
+          var e = 1 - Math.pow(1 - u, 3);   /* easeOutCubic */
+          var x = p.sx + (p.tx - p.sx) * e;
+          var y = p.sy + (p.ty - p.sy) * e;
+          var alfa = u >= 1
+            ? 0.6 + 0.4 * Math.sin(ahora * 0.0011 + p.f)
+            : 0.15 + 0.6 * u;
+          mcx.globalAlpha = alfa;
+          mcx.fillStyle = p.blanca ? "#eafffa" : "#6fcabb";
+          mcx.fillRect(x, y, 2, 2);
+        }
+        mcx.globalAlpha = 1;
+      }
+      var timerR = null;
+      addEventListener("resize", function () {
+        clearTimeout(timerR);
+        timerR = setTimeout(function () { muestrear(); if (quieto) pintar(true); }, 180);
       });
-    }
+      document.addEventListener("visibilitychange", function () { visible = !document.hidden; });
+      muestrear();
+      if (quieto) { pintar(true); return; }
+      function frameM() {
+        requestAnimationFrame(frameM);
+        if (!listo || !visible || scrollY > innerHeight) return;
+        pintar(false);
+      }
+      frameM();
+    })();
   }
-  addEventListener("resize", function () { medir(); sembrar(); });
-  addEventListener("mousemove", function (e) { mx = e.clientX / innerWidth; }, { passive: true });
-  document.addEventListener("visibilitychange", function () { visible = !document.hidden; });
 
-  var t = 0;
-  function frame() {
-    requestAnimationFrame(frame);
-    if (!visible || scrollY > H) return;   /* fuera del hero no se paga nada */
-    t += 0.016;
-    cx.clearRect(0, 0, W, H);
-    var deriva = (mx - 0.5) * 0.3;
-    for (var i = 0; i < parts.length; i++) {
-      var p = parts[i];
-      p.x += p.vx + deriva * p.z;
-      p.y += p.vy;
-      if (p.y < -4) { p.y = H + 4; p.x = Math.random() * W; }
-      if (p.x < -4) p.x = W + 4; else if (p.x > W + 4) p.x = -4;
-      var tit = 0.35 + 0.3 * Math.sin(t * 1.4 + p.f);   /* titileo suave */
-      cx.globalAlpha = tit * p.z;
-      cx.fillStyle = "#6fcabb";
-      var s = 1 + p.z * 1.6;
-      if (p.cuad) cx.fillRect(p.x, p.y, s, s);
-      else { cx.beginPath(); cx.arc(p.x, p.y, s / 2, 0, 7); cx.fill(); }
-    }
-    cx.globalAlpha = 1;
+  /* ================= tabs de la app ================= */
+  var tabActual = "pipeline";
+  var tabs = document.querySelectorAll(".tab");
+  var panes = document.querySelectorAll(".pane");
+  tabs.forEach(function (b) {
+    b.addEventListener("click", function () {
+      tabActual = b.dataset.tab;
+      tabs.forEach(function (x) { x.setAttribute("aria-selected", x === b ? "true" : "false"); });
+      panes.forEach(function (p) { p.hidden = p.dataset.pane !== tabActual; });
+      if (tabActual === "pipeline") setTimeout(cablear, 40);
+    });
+  });
+
+  /* ================= pipeline: cables + escenarios ================= */
+  var app = $("#app"), stage = $(".stage"), wires = $("#wires");
+  var appVisible = false;
+  if ("IntersectionObserver" in window && app) {
+    new IntersectionObserver(function (es) {
+      es.forEach(function (e) { appVisible = e.isIntersecting; });
+    }, { threshold: 0.25 }).observe(app);
+  } else { appVisible = true; }
+
+  var NODOS = { hear: $("#n-hear"), think: $("#n-think"), act: $("#n-act"), mem: $("#n-mem"), speak: $("#n-speak") };
+  var CABLES = {};
+
+  function borde(el, lado) {   /* punto de conexión de un nodo, relativo al stage */
+    var r = el.getBoundingClientRect(), s = stage.getBoundingClientRect();
+    return {
+      x: (lado === "izq" ? r.left : r.right) - s.left,
+      y: r.top - s.top + r.height / 2
+    };
   }
-  medir(); sembrar(); frame();
+  function codo(a, b) {        /* path con codo redondeado, horizontal primero */
+    if (Math.abs(a.y - b.y) < 3) return "M" + a.x + " " + a.y + " L" + b.x + " " + b.y;
+    var xm = (a.x + b.x) / 2, rr = 10, dir = b.y > a.y ? 1 : -1;
+    return "M" + a.x + " " + a.y +
+      " L" + (xm - rr) + " " + a.y +
+      " Q" + xm + " " + a.y + " " + xm + " " + (a.y + rr * dir) +
+      " L" + xm + " " + (b.y - rr * dir) +
+      " Q" + xm + " " + b.y + " " + (xm + rr) + " " + b.y +
+      " L" + b.x + " " + b.y;
+  }
+  function cablear() {
+    if (!wires || !stage) return;
+    if (getComputedStyle(NODOS.hear).position !== "absolute") return;  /* en mobile no hay cables */
+    var w = stage.clientWidth, h = stage.clientHeight;
+    wires.setAttribute("viewBox", "0 0 " + w + " " + h);
+    var defs = [
+      ["ht", NODOS.hear, NODOS.think],
+      ["ta", NODOS.think, NODOS.act],
+      ["as", NODOS.act, NODOS.speak],
+      ["tm", NODOS.think, NODOS.mem],
+      ["ms", NODOS.mem, NODOS.speak]
+    ];
+    wires.innerHTML = "";
+    defs.forEach(function (d) {
+      var p = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      p.setAttribute("d", codo(borde(d[1], "der"), borde(d[2], "izq")));
+      p.id = "w-" + d[0];
+      wires.appendChild(p);
+      CABLES[d[0]] = p;
+    });
+  }
+  addEventListener("resize", function () { setTimeout(cablear, 120); });
+  cablear();
+
+  var cursor = $("#cursorj"), reqtext = $("#reqtext");
+  function moverCursor(nodo) {
+    if (!cursor || getComputedStyle(cursor).display === "none") return;
+    var r = nodo.getBoundingClientRect(), s = stage.getBoundingClientRect();
+    cursor.style.left = (r.left - s.left + r.width - 26) + "px";
+    cursor.style.top = (r.top - s.top + r.height - 14) + "px";
+  }
+
+  var ESCENAS = [
+    { req: '“Jarvis, play Blinding Lights”', pasos: [
+      ["hear", null, "listening…"],
+      ["think", "ht", "choosing a hand"],
+      ["act", "ta", "Spotify · now playing"],
+      ["speak", "as", "“On it, sir.”"]
+    ]},
+    { req: '“Set a timer for 10 minutes”', pasos: [
+      ["hear", null, "listening…"],
+      ["think", "ht", "choosing a hand"],
+      ["act", "ta", "timer · 10:00 armed"],
+      ["speak", "as", "“Timer set, sir.”"]
+    ]},
+    { req: '“Note that the invoice is due Friday”', pasos: [
+      ["hear", null, "listening…"],
+      ["think", "ht", "this one's for memory"],
+      ["mem", "tm", "saved to your notes"],
+      ["speak", "ms", "“Noted. I won't forget.”"]
+    ]}
+  ];
+
+  var tipeoId = 0;
+  function tipear(txt) {
+    var mio = ++tipeoId, i = 0;
+    reqtext.textContent = "";
+    (function paso() {
+      if (mio !== tipeoId) return;
+      if (i <= txt.length) {
+        reqtext.textContent = txt.slice(0, i); i++;
+        setTimeout(paso, 34);
+      }
+    })();
+  }
+  function limpiarEscena() {
+    Object.keys(NODOS).forEach(function (k) {
+      NODOS[k].classList.remove("on");
+      var sb = NODOS[k].querySelector(".subn");
+      sb.textContent = sb.dataset.base;
+      sb.classList.remove("flash");
+    });
+    Object.keys(CABLES).forEach(function (k) { CABLES[k].classList.remove("hot", "lit"); });
+  }
+  function prender(paso) {
+    var nodo = NODOS[paso[0]];
+    nodo.classList.add("on");
+    if (paso[1] && CABLES[paso[1]]) {
+      Object.keys(CABLES).forEach(function (k) {
+        if (CABLES[k].classList.contains("hot")) { CABLES[k].classList.remove("hot"); CABLES[k].classList.add("lit"); }
+      });
+      CABLES[paso[1]].classList.add("hot");
+    }
+    if (paso[2]) {
+      var sb = nodo.querySelector(".subn");
+      sb.textContent = paso[2];
+      sb.classList.add("flash");
+    }
+    moverCursor(nodo);
+  }
+
+  if (quieto) {
+    /* sin animación: todo encendido, primera escena visible */
+    Object.keys(NODOS).forEach(function (k) { NODOS[k].classList.add("on"); });
+    if (reqtext) reqtext.textContent = ESCENAS[0].req;
+    setTimeout(function () {
+      Object.keys(CABLES).forEach(function (k) { CABLES[k].classList.add("lit"); });
+    }, 100);
+  } else {
+    var esc = 0, paso = 0;
+    (function correr() {
+      if (!appVisible || document.hidden || tabActual !== "pipeline") {
+        setTimeout(correr, 700); return;
+      }
+      var E = ESCENAS[esc];
+      if (paso === 0) { limpiarEscena(); tipear(E.req); }
+      if (paso < E.pasos.length) {
+        prender(E.pasos[paso]);
+        paso++;
+        setTimeout(correr, 1150);
+      } else {
+        esc = (esc + 1) % ESCENAS.length;
+        paso = 0;
+        setTimeout(correr, 2600);
+      }
+    })();
+  }
+
+  /* ================= chat guionado ================= */
+  var GUION = [
+    ["u", "Morning, Jarvis."],
+    ["j", "Good morning, sir. Two university deliveries this week — and you asked me to remind you about the demo video today."],
+    ["u", "Play something for focus."],
+    ["j", "Now playing — the <b>studio</b> version, not the live one. Anything else?"],
+    ["u", "Note that the client call moved to Friday."],
+    ["j", "Noted and <b>saved</b>, sir. I'll bring it up in Friday's briefing."]
+  ];
+  var msgs = $("#msgs");
+  if (msgs && !quieto) {
+    var gi = 0;
+    (function charla() {
+      if (!appVisible || document.hidden || tabActual !== "chat") {
+        setTimeout(charla, 700); return;
+      }
+      if (gi >= GUION.length) {
+        gi = 0;
+        setTimeout(function () { msgs.innerHTML = ""; charla(); }, 3400);
+        return;
+      }
+      var linea = GUION[gi];
+      if (linea[0] === "u") {
+        var d = document.createElement("div");
+        d.className = "msg u"; d.textContent = linea[1];
+        msgs.appendChild(d);
+        gi++;
+        setTimeout(charla, 1000);
+      } else {
+        var dots = document.createElement("div");
+        dots.className = "msg j typing"; dots.textContent = "· · ·";
+        msgs.appendChild(dots);
+        gi++;
+        setTimeout(function () {
+          dots.classList.remove("typing");
+          dots.innerHTML = linea[1];
+          setTimeout(charla, 1500);
+        }, 850);
+      }
+    })();
+  } else if (msgs) {
+    GUION.forEach(function (l) {
+      var d = document.createElement("div");
+      d.className = "msg " + l[0];
+      d.innerHTML = l[1];
+      msgs.appendChild(d);
+    });
+  }
 })();
 </script>
 
