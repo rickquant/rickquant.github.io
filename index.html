@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Charles Rick — AI assistants &amp; automations</title>
+<meta name="description" content="I build AI assistants with real memory and automations that watch things for you. Working in English and Spanish from Honduras (GMT-6).">
+<meta property="og:title" content="Charles Rick — AI assistants & automations">
+<meta property="og:description" content="AI assistants with real memory, automations that watch things for you, and honest engineering — all built in public.">
+<meta property="og:image" content="https://rickquant.github.io/jarvis-hud.png">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='38' fill='none' stroke='%236fcabb' stroke-width='8'/><circle cx='50' cy='50' r='14' fill='%236fcabb'/></svg>">
+<style>
+  :root {
+    --bg: #0b0f12;
+    --panel: #11171c;
+    --line: #1e2830;
+    --text: #d7e0e6;
+    --dim: #8fa1ab;
+    --accent: #6fcabb;
+    --accent-dim: #3d7a70;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 0 24px; }
+
+  header { padding: 88px 0 56px; }
+  .kicker {
+    color: var(--accent); font-size: 14px; letter-spacing: 2.5px;
+    text-transform: uppercase; margin-bottom: 18px;
+  }
+  h1 { font-size: clamp(30px, 5.5vw, 46px); font-weight: 700; line-height: 1.18; letter-spacing: -0.5px; }
+  h1 em { color: var(--accent); font-style: normal; }
+  .sub { color: var(--dim); font-size: 18px; margin-top: 18px; max-width: 620px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 26px; }
+  .chip {
+    border: 1px solid var(--line); border-radius: 999px;
+    padding: 6px 14px; font-size: 13.5px; color: var(--dim);
+  }
+  .chip b { color: var(--text); font-weight: 600; }
+  .cta { margin-top: 34px; display: flex; flex-wrap: wrap; gap: 14px; }
+  .btn {
+    display: inline-block; padding: 12px 22px; border-radius: 8px;
+    font-size: 15px; font-weight: 600; text-decoration: none;
+    transition: transform .12s ease, background .12s ease;
+  }
+  .btn:hover { transform: translateY(-1px); }
+  .btn.primary { background: var(--accent); color: #06211c; }
+  .btn.primary:hover { background: #8adcce; }
+  .btn.ghost { border: 1px solid var(--line); color: var(--text); }
+  .btn.ghost:hover { border-color: var(--accent-dim); }
+
+  section { padding: 52px 0; border-top: 1px solid var(--line); }
+  h2 { font-size: 24px; margin-bottom: 8px; letter-spacing: -0.3px; }
+  .lede { color: var(--dim); margin-bottom: 32px; max-width: 640px; }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+  .card {
+    background: var(--panel); border: 1px solid var(--line);
+    border-radius: 12px; padding: 24px;
+  }
+  .card h3 { font-size: 17px; margin-bottom: 10px; }
+  .card p { color: var(--dim); font-size: 15px; }
+  .card .ico { font-size: 22px; margin-bottom: 14px; display: block; }
+
+  .project {
+    background: var(--panel); border: 1px solid var(--line);
+    border-radius: 14px; padding: 28px; margin-bottom: 20px;
+  }
+  .project h3 { font-size: 20px; }
+  .project .tag {
+    color: var(--accent); font-size: 12.5px; letter-spacing: 1.5px;
+    text-transform: uppercase; display: block; margin-bottom: 10px;
+  }
+  .project p { color: var(--dim); margin-top: 10px; }
+  .project .links { margin-top: 16px; display: flex; flex-wrap: wrap; gap: 16px; }
+  .project .links a { color: var(--accent); text-decoration: none; font-size: 14.5px; font-weight: 600; }
+  .project .links a:hover { text-decoration: underline; }
+  .project .links .soon { color: var(--dim); font-size: 14.5px; }
+  .shot {
+    width: 100%; border-radius: 10px; border: 1px solid var(--line);
+    margin-top: 20px; display: block;
+  }
+
+  .how li { color: var(--dim); margin: 12px 0 12px 22px; }
+  .how li::marker { color: var(--accent); }
+  .how b { color: var(--text); }
+
+  footer { border-top: 1px solid var(--line); padding: 48px 0 72px; }
+  footer .row { display: flex; flex-wrap: wrap; gap: 24px; align-items: center; justify-content: space-between; }
+  footer a { color: var(--accent); text-decoration: none; font-weight: 600; }
+  footer a:hover { text-decoration: underline; }
+  footer .fine { color: var(--dim); font-size: 13.5px; margin-top: 20px; }
+
+  @media (max-width: 560px) {
+    header { padding: 56px 0 40px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <div class="kicker">Charles Rick Zelaya · AI developer</div>
+    <h1>I build AI assistants that <em>remember</em> and automations that <em>watch things for you</em>.</h1>
+    <p class="sub">Industrial &amp; Systems Engineering student, self-taught Python developer. Everything I build is public — you can read the code, not just the promises.</p>
+    <div class="chips">
+      <span class="chip"><b>English &amp; Spanish</b> — bilingual builds</span>
+      <span class="chip"><b>GMT-6</b> — US-friendly hours</span>
+      <span class="chip"><b>Open to freelance work</b></span>
+    </div>
+    <div class="cta">
+      <a class="btn primary" href="mailto:oficialcharles9@gmail.com">Get in touch</a>
+      <a class="btn ghost" href="https://github.com/rickquant">See my code on GitHub</a>
+    </div>
+  </header>
+
+  <section>
+    <h2>What I can build for you</h2>
+    <p class="lede">In plain terms — no jargon required on your side.</p>
+    <div class="grid">
+      <div class="card">
+        <span class="ico">🧠</span>
+        <h3>Assistants with real memory</h3>
+        <p>An AI that knows your business, remembers past conversations and decisions, and picks up where you left off — on your data, under your control.</p>
+      </div>
+      <div class="card">
+        <span class="ico">👁️</span>
+        <h3>Automations that watch for you</h3>
+        <p>Deadlines, portals, inboxes, dashboards: small reliable robots that check so you don't have to, and message you only when something needs attention.</p>
+      </div>
+      <div class="card">
+        <span class="ico">🔌</span>
+        <h3>AI wired into your tools</h3>
+        <p>Claude and other AI models connected to what you already use — Telegram, spreadsheets, your website — with security designed in from day one, not bolted on.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Proof, not promises</h2>
+    <p class="lede">Three public projects. All the code is on GitHub.</p>
+
+    <div class="project">
+      <span class="tag">Flagship · AI assistant</span>
+      <h3>Jarvis — a voice assistant with a movie-grade interface</h3>
+      <p>Say <i>"jarvis"</i> and talk. It answers out loud, remembers who I am and what I'm working on across sessions, gives me a spoken briefing every morning (weather, deadlines, reminders), plays the exact song I ask for, and can look at my screen when I need a hand. Fully bilingual. Runs on a laptop at <b>$0/month</b>.</p>
+      <img class="shot" src="jarvis-hud.png" alt="The Jarvis HUD booting up: the J.A.R.V.I.S. signature materializes in particles over an animated reactor, with the morning briefing card on screen." width="1600" height="900" loading="lazy">
+      <div class="links">
+        <a href="https://github.com/rickquant/jarvis">View the code →</a>
+        <span class="soon">🎬 Video demo: coming this week</span>
+      </div>
+    </div>
+
+    <div class="project">
+      <span class="tag">Automation</span>
+      <h3>Canvas Watcher — never miss a deadline</h3>
+      <p>A bot that checks my university's portal and messages me on Telegram before assignments are due. Boring, reliable, and exactly the kind of thing that saves real hours every week — the same pattern works for invoices, orders, or any portal you're tired of checking.</p>
+      <div class="links">
+        <a href="https://github.com/rickquant/canvas-automation">View the code →</a>
+      </div>
+    </div>
+
+    <div class="project">
+      <span class="tag">Honest engineering</span>
+      <h3>Quantito — a trading bot, and why it failed</h3>
+      <p>A crypto trading bot that looked brilliant in testing and lost in the real market. I published the full honest post-mortem instead of hiding it — because understanding <i>why</i> systems fail is what it takes to build ones that don't. If you hire me, this is the level of honesty you get.</p>
+      <div class="links">
+        <a href="https://github.com/rickquant/quantito">Read the post-mortem →</a>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>How I work</h2>
+    <ul class="how">
+      <li><b>Plain language.</b> You describe the problem in your words; I handle the technical part and explain decisions without jargon.</li>
+      <li><b>Small first step.</b> We start with a small, fixed scope so you can judge the work before committing to anything bigger.</li>
+      <li><b>Everything visible.</b> Code in a repository you can access from day one — progress you can see, not status reports you have to trust.</li>
+      <li><b>Security by design.</b> My assistants run on allowlists: they can only do what's explicitly permitted. Ask me about it — it's my favorite subject.</li>
+    </ul>
+  </section>
+
+  <footer>
+    <div class="row">
+      <div>
+        <b>Let's talk about your project.</b><br>
+        <a href="mailto:oficialcharles9@gmail.com">oficialcharles9@gmail.com</a>
+      </div>
+      <div>
+        <a href="https://github.com/rickquant">GitHub</a>
+      </div>
+    </div>
+    <p class="fine">Charles Rick Zelaya · Tegucigalpa, Honduras (GMT-6) · This page is hand-built — no template, no tracker, loads in one request.</p>
+  </footer>
+</div>
+
+</body>
+</html>
