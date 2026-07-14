@@ -263,19 +263,24 @@
   /* -- demo -- */
   .pane.demo { display: flex; align-items: center; justify-content: center; padding: 56px 26px 26px; }
   .pane.demo[hidden] { display: none; }
-  .demoframe { position: relative; width: min(760px, 100%); border-radius: 12px; overflow: hidden; border: 1px solid var(--line); }
-  .demoframe img { display: block; width: 100%; filter: brightness(.38) saturate(.9); }
+  .demoframe { position: relative; width: min(760px, 100%); border-radius: 12px; overflow: hidden; border: 1px solid var(--line); background: #000; }
+  .demoframe video { display: block; width: 100%; aspect-ratio: 1710 / 1108; }
+  .demoframe .cover { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: brightness(.38) saturate(.9); }
   .demoveil {
     position: absolute; inset: 0; display: flex; flex-direction: column;
     align-items: center; justify-content: center; gap: 14px; text-align: center; padding: 20px;
+    width: 100%; border: 0; background: none; color: inherit; font: inherit; cursor: pointer;
   }
   .demoveil .play {
     width: 62px; height: 62px; border-radius: 50%; border: 1px solid var(--accent);
     display: grid; place-items: center; color: var(--accent);
     box-shadow: 0 0 34px rgba(255,90,30,.18);
+    transition: transform .18s ease, box-shadow .18s ease;
   }
+  .demoveil:hover .play { transform: scale(1.08); box-shadow: 0 0 46px rgba(255,90,30,.32); }
   .demoveil b { font-size: 17px; }
   .demoveil span { color: var(--dim); font-size: 12px; max-width: 440px; }
+  .demoframe.playing .cover, .demoframe.playing .demoveil { display: none; }
 
   /* ---------- bento (pantalla 3) ---------- */
   .bento { display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; margin-top: 44px; }
@@ -381,6 +386,7 @@
     .stage { min-height: 0; }
     .pane { position: static; }
     .pane.pipeline { padding: 64px 18px 22px; display: flex; flex-direction: column; }
+    .pane.pipeline[hidden] { display: none; }
     #wires, #cursorj { display: none; }
     .nodo { position: relative !important; left: auto !important; top: auto !important; bottom: auto !important; width: 100%; }
     .nodo + .nodo { margin-top: 30px; }
@@ -500,13 +506,14 @@
 
         <!-- demo -->
         <div class="pane demo" data-pane="demo" hidden>
-          <div class="demoframe">
-            <img src="jarvis-hud.png" alt="The Jarvis HUD: the J.A.R.V.I.S. signature materializing in particles over an animated reactor." width="1600" height="900" loading="lazy">
-            <div class="demoveil">
-              <div class="play"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
-              <b>Demo film — being shot this week.</b>
-              <span>The interface you just played with is code. The film shows the real thing running: voice in, voice out, morning briefing and all.</span>
-            </div>
+          <div class="demoframe" id="demoframe">
+            <video id="demovideo" src="jarvis-demo.mp4" preload="metadata" playsinline aria-label="Demo film: Jarvis running for real — voice in, voice out, morning briefing and all."></video>
+            <img class="cover" src="jarvis-hud.png" alt="" aria-hidden="true" width="1600" height="900" loading="lazy">
+            <button class="demoveil" id="demoplay" type="button" aria-label="Play the demo film (1 minute 48 seconds)">
+              <span class="play"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+              <b>Demo film — 1:48.</b>
+              <span>The interface you just played with is code. This is the real thing running: voice in, voice out, morning briefing and all.</span>
+            </button>
           </div>
         </div>
       </div>
@@ -805,6 +812,16 @@
     })();
   }
 
+  /* ================= demo film ================= */
+  var demoframe = $("#demoframe"), demovideo = $("#demovideo"), demoplay = $("#demoplay");
+  if (demoplay) {
+    demoplay.addEventListener("click", function () {
+      demoframe.classList.add("playing");
+      demovideo.controls = true;
+      demovideo.play();
+    });
+  }
+
   /* ================= tabs de la app ================= */
   var tabActual = "pipeline";
   var tabs = document.querySelectorAll(".tab");
@@ -814,6 +831,7 @@
       tabActual = b.dataset.tab;
       tabs.forEach(function (x) { x.setAttribute("aria-selected", x === b ? "true" : "false"); });
       panes.forEach(function (p) { p.hidden = p.dataset.pane !== tabActual; });
+      if (tabActual !== "demo" && demovideo && !demovideo.paused) demovideo.pause();
       if (tabActual === "pipeline") setTimeout(cablear, 40);
     });
   });
