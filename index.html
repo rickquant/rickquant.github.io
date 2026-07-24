@@ -152,14 +152,14 @@
     padding: 52px 16px 20px; display: flex; flex-direction: column; gap: 10px;
     background: rgba(255,255,255,.012);
   }
-  .tab {
+  .tab, .tab2 {
     font: 600 12px var(--mono); letter-spacing: 2px; text-transform: uppercase;
     background: none; border: 1px solid var(--line); border-radius: 7px;
     color: var(--dim); padding: 11px 14px; text-align: left; cursor: pointer;
     transition: color .15s, border-color .15s, background .15s, transform .18s ease;
   }
-  .tab:hover { color: var(--text); border-color: var(--accent-dim); }
-  .tab[aria-selected="true"] { background: var(--text); color: #14110d; border-color: var(--text); }
+  .tab:hover, .tab2:hover { color: var(--text); border-color: var(--accent-dim); }
+  .tab[aria-selected="true"], .tab2[aria-selected="true"] { background: var(--text); color: #14110d; border-color: var(--text); }
   .stack { margin-top: auto; padding-top: 22px; }
   .stack .rot { font: 600 10.5px var(--mono); letter-spacing: 2.5px; color: var(--dim); margin-bottom: 12px; }
   .stack .chips { display: flex; flex-wrap: wrap; gap: 6px; }
@@ -176,13 +176,13 @@
     background-image: radial-gradient(rgba(255,255,255,.06) 1px, transparent 1.3px);
     background-size: 22px 22px;
   }
-  #wires { position: absolute; inset: 0; width: 100%; height: 100%; }
-  #wires path {
+  #wires, #wires2 { position: absolute; inset: 0; width: 100%; height: 100%; }
+  #wires path, #wires2 path {
     fill: none; stroke: var(--line); stroke-width: 1.5;
     transition: stroke .3s ease;
   }
-  #wires path.lit { stroke: var(--accent-dim); }
-  #wires path.hot {
+  #wires path.lit, #wires2 path.lit { stroke: var(--accent-dim); }
+  #wires path.hot, #wires2 path.hot {
     stroke: var(--accent); stroke-dasharray: 7 9;
     animation: flujo .7s linear infinite;
   }
@@ -209,6 +209,37 @@
   #n-act   { left: 53%; top: 9%; }
   #n-mem   { left: 53%; bottom: 9%; }
   #n-speak { left: 79%; top: 40%; }
+
+  /* -- pipeline del content engine (pantalla 2b) -- */
+  /* misma altura en los cuatro: si no, el nodo con gate baja su centro y el cable llega en escalón */
+  #a-src, #a-write, #a-draft, #a-you { min-height: 134px; }
+  #a-src   { left: 2%;  top: 38%; }
+  #a-write { left: 27%; top: 38%; }
+  #a-draft { left: 52%; top: 38%; }
+  #a-you   { left: 77%; top: 38%; }
+  #a-you.on { box-shadow: 0 0 0 1px rgba(255,90,30,.3), 0 0 40px rgba(255,90,30,.18); }
+  .nodo .gate {
+    display: none; margin-top: 9px; padding-top: 9px; border-top: 1px solid var(--line);
+    font: 600 10px var(--mono); letter-spacing: 1.4px; color: var(--dim);
+  }
+  #a-you .gate { display: block; }
+  #a-you.aprobado .gate { color: var(--accent); }
+  #a-you.descartado .gate { color: var(--dim); text-decoration: line-through; }
+  /* -- el draft que llega a Telegram -- */
+  .pane.draft { display: flex; align-items: center; justify-content: center; padding: 56px 24px 28px; }
+  .pane.draft[hidden] { display: none; }
+  .tgbox { width: min(560px, 100%); }
+  .tgmsg {
+    border: 1px solid var(--line); border-radius: 12px; background: var(--panel);
+    padding: 16px 18px; font-size: 12.5px; line-height: 1.65; color: var(--dim);
+    white-space: pre-wrap;
+  }
+  .tgmsg .tghead { color: var(--accent); font: 600 11px var(--mono); letter-spacing: 1.6px; margin-bottom: 12px; }
+  .tgmsg .tgsrc {
+    margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--line);
+    font: 500 11px var(--mono); color: var(--dim); word-break: break-word;
+  }
+  .tgpie { margin-top: 12px; font: 500 11px var(--mono); color: var(--dim); text-align: center; }
   .reqchip {
     position: absolute; top: 18px; left: 18px; z-index: 3;
     display: flex; align-items: center; gap: 9px;
@@ -221,13 +252,13 @@
     background: var(--accent); box-shadow: 0 0 8px var(--accent);
     animation: latido 1.6s ease-in-out infinite;
   }
-  #cursorj {
+  #cursorj, #cursor2 {
     position: absolute; z-index: 4; pointer-events: none;
     transition: left .7s cubic-bezier(.3,.9,.35,1), top .7s cubic-bezier(.3,.9,.35,1);
     left: 6%; top: 62%;
   }
-  #cursorj svg { display: block; filter: drop-shadow(0 2px 6px rgba(0,0,0,.6)); }
-  #cursorj .tagj {
+  #cursorj svg, #cursor2 svg { display: block; filter: drop-shadow(0 2px 6px rgba(0,0,0,.6)); }
+  #cursorj .tagj, #cursor2 .tagj {
     font: 600 10px var(--mono); letter-spacing: 1.5px; color: #1f0b03;
     background: var(--accent); border-radius: 4px; padding: 2px 7px;
     margin: 2px 0 0 12px; display: inline-block;
@@ -371,8 +402,8 @@
     #boot { display: none; }
     .rev { opacity: 1; transform: none; transition: none; }
     .card, .card:hover { transform: none; }
-    #wires path.hot { animation: none; stroke-dasharray: none; }
-    #cursorj { display: none; }
+    #wires path.hot, #wires2 path.hot { animation: none; stroke-dasharray: none; }
+    #cursorj, #cursor2 { display: none; }
     .msg { animation: none; }
   }
 
@@ -381,14 +412,15 @@
     section { padding: 72px 0; }
     .app { flex-direction: column; }
     .rail { width: auto; flex-direction: row; align-items: center; padding: 16px; gap: 8px; border-right: none; border-bottom: 1px solid var(--line); }
-    .tab { padding: 9px 12px; }
+    .tab, .tab2 { padding: 9px 12px; }
     .stack { display: none; }
     .stage { min-height: 0; }
     .pane { position: static; }
     .pane.pipeline { padding: 64px 18px 22px; display: flex; flex-direction: column; }
     .pane.pipeline[hidden] { display: none; }
-    #wires, #cursorj { display: none; }
+    #wires, #wires2, #cursorj, #cursor2 { display: none; }
     .nodo { position: relative !important; left: auto !important; top: auto !important; bottom: auto !important; width: 100%; }
+    #a-src, #a-write, #a-draft, #a-you { min-height: 0; }   /* sin cables no hay que alinear centros */
     .nodo + .nodo { margin-top: 30px; }
     .nodo + .nodo::before {
       content: ""; position: absolute; left: 28px; top: -31px; height: 30px;
@@ -415,6 +447,7 @@
   <a class="logo" href="#">rickquant</a>
   <div class="links">
     <a href="#product">The product</a>
+    <a href="#automation">Automation</a>
     <a href="#proof">Proof</a>
     <a href="https://github.com/rickquant">GitHub ↗</a>
     <a href="mailto:charlesrickzelaya@gmail.com">Contact</a>
@@ -514,6 +547,80 @@
               <b>Demo film — 1:48.</b>
               <span>The interface you just played with is code. This is the real thing running: voice in, voice out, morning briefing and all.</span>
             </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ pantalla 2b: content engine ============ -->
+<section id="automation">
+  <div class="wrap">
+    <div class="eyebrow">Automation · shipped this week</div>
+    <h2>It writes the post.<br><span style="color:var(--dim)">You decide if it ships.</span></h2>
+    <p class="lede">The same idea, without a voice: a pipeline that watches a source, writes in your voice, and stops at your approval. Nothing reaches your audience unless you say so.</p>
+
+    <div class="app" id="app2">
+      <span class="badge-live">LIVE</span>
+      <div class="rail" role="tablist" aria-label="Content Engine views">
+        <button class="tab2" role="tab" aria-selected="true" data-pane2="flow">Pipeline</button>
+        <button class="tab2" role="tab" aria-selected="false" data-pane2="draft">The draft</button>
+        <div class="stack">
+          <div class="rot">STACK</div>
+          <div class="chips">
+            <span>n8n</span><span>OpenAI</span><span>RSS</span><span>Telegram</span><span>JavaScript</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="stage">
+        <!-- pipeline -->
+        <div class="pane pipeline" data-pane2="flow">
+          <div class="reqchip"><span id="reqtext2">&nbsp;</span></div>
+          <svg id="wires2" aria-hidden="true"></svg>
+
+          <div class="nodo" id="a-src">
+            <div class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/><path d="M4 11a9 9 0 0 1 9 9M4 5a15 15 0 0 1 15 15"/></svg></div>
+            <h4>WATCHES</h4>
+            <span class="subn" data-base="any feed or inbox">any feed or inbox</span>
+          </div>
+          <div class="nodo" id="a-write">
+            <div class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></div>
+            <h4>WRITES</h4>
+            <span class="subn" data-base="in your voice">in your voice</span>
+          </div>
+          <div class="nodo" id="a-draft">
+            <div class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+            <h4>DRAFTS</h4>
+            <span class="subn" data-base="to your phone">to your phone</span>
+          </div>
+          <div class="nodo" id="a-you">
+            <div class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+            <h4>YOU DECIDE</h4>
+            <span class="subn" data-base="approve or discard">approve or discard</span>
+            <span class="gate">HUMAN GATE</span>
+          </div>
+
+          <div id="cursor2" aria-hidden="true">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="#ff5a1e"><path d="M4 2l16 8-7 2-3 7z"/></svg>
+            <span class="tagj">ENGINE</span>
+          </div>
+        </div>
+
+        <!-- el draft real -->
+        <div class="pane draft" data-pane2="draft" hidden>
+          <div class="tgbox">
+            <div class="tgmsg">
+              <div class="tghead">📝 DRAFT FOR IG</div>
+<b style="color:var(--text)">La personalidad ya no es "detalle": puede ser ventaja competitiva.</b>
+
+Cognition compró Poke para llevar su estilo conversacional a Devin, su agente de coding. Traducción para quienes construimos software: no alcanza con que la IA responda bien; también tiene que sonar útil, clara y fácil de usar.
+
+¿Vos lo ves así?
+#InteligenciaArtificial #DesarrolloDeSoftware #AItools<div class="tgsrc">Source: Why Cognition bought Poke: AI personality is becoming a competitive advantage<br>techcrunch.com</div>
+            </div>
+            <div class="tgpie">A real draft, delivered to Telegram. Written in Spanish because its audience is — the language follows the market.</div>
           </div>
         </div>
       </div>
@@ -1073,6 +1180,150 @@
     })();
   })();
 
+  /* ================= content engine: pipeline propio (pantalla 2b) ================= */
+  /* Motor aparte del de Jarvis a propósito: comparte el CSS y la función codo(),
+     pero no toca el loop de arriba, que ya está probado. */
+  (function () {
+    var app2 = $("#app2");
+    if (!app2) return;
+    var stage2 = app2.querySelector(".stage"), wires2 = $("#wires2");
+    var NOD2 = { src: $("#a-src"), write: $("#a-write"), draft: $("#a-draft"), you: $("#a-you") };
+    var CAB2 = {}, pane2 = "flow", visible2 = false;
+
+    document.querySelectorAll(".tab2").forEach(function (b) {
+      b.addEventListener("click", function () {
+        pane2 = b.dataset.pane2;
+        document.querySelectorAll(".tab2").forEach(function (x) { x.setAttribute("aria-selected", x === b ? "true" : "false"); });
+        app2.querySelectorAll(".pane").forEach(function (p) { p.hidden = p.dataset.pane2 !== pane2; });
+        if (pane2 === "flow") setTimeout(cablear2, 40);
+      });
+    });
+
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(function (es) {
+        es.forEach(function (e) { visible2 = e.isIntersecting; });
+      }, { threshold: 0.25 }).observe(app2);
+    } else { visible2 = true; }
+
+    function borde2(el, lado) {
+      var r = el.getBoundingClientRect(), s = stage2.getBoundingClientRect();
+      return { x: (lado === "izq" ? r.left : r.right) - s.left, y: r.top - s.top + r.height / 2 };
+    }
+    function cablear2() {
+      if (!wires2 || !stage2) return;
+      if (getComputedStyle(NOD2.src).position !== "absolute") return;   /* en mobile no hay cables */
+      wires2.setAttribute("viewBox", "0 0 " + stage2.clientWidth + " " + stage2.clientHeight);
+      wires2.innerHTML = "";
+      [["sw", NOD2.src, NOD2.write], ["wd", NOD2.write, NOD2.draft], ["dy", NOD2.draft, NOD2.you]]
+        .forEach(function (d) {
+          var p = document.createElementNS("http://www.w3.org/2000/svg", "path");
+          p.setAttribute("d", codo(borde2(d[1], "der"), borde2(d[2], "izq")));
+          wires2.appendChild(p);
+          CAB2[d[0]] = p;
+        });
+    }
+    addEventListener("resize", function () { setTimeout(cablear2, 120); });
+    cablear2();
+
+    var cur2 = $("#cursor2"), req2 = $("#reqtext2");
+    function mover2(nodo) {
+      if (!cur2 || getComputedStyle(cur2).display === "none") return;
+      var r = nodo.getBoundingClientRect(), s = stage2.getBoundingClientRect();
+      cur2.style.left = (r.left - s.left + r.width - 26) + "px";
+      cur2.style.top = (r.top - s.top + r.height - 14) + "px";
+    }
+
+    /* cada escena termina en una decisión humana: aprobar o descartar */
+    var ESC2 = [
+      { req: "New in the feed · 20 articles", veredicto: "aprobado", pasos: [
+        ["src", null, "keeps the newest"],
+        ["write", "sw", "120 words · brief"],
+        ["draft", "wd", "+ source link"],
+        ["you", "dy", "approved · ships"]
+      ]},
+      { req: "Another one · off-brand take", veredicto: "descartado", pasos: [
+        ["src", null, "keeps the newest"],
+        ["write", "sw", "draft written"],
+        ["draft", "wd", "source attached"],
+        ["you", "dy", "discarded by you"]
+      ]},
+      { req: "Same pipeline · different engine", veredicto: "aprobado", pasos: [
+        ["src", null, "any source"],
+        ["write", "sw", "swap the model"],
+        ["draft", "wd", "same voice"],
+        ["you", "dy", "approved · ships"]
+      ]}
+    ];
+
+    var tid2 = 0;
+    function tipear2(txt) {
+      var mio = ++tid2, i = 0;
+      req2.textContent = "";
+      (function paso() {
+        if (mio !== tid2) return;
+        if (i <= txt.length) { req2.textContent = txt.slice(0, i); i++; setTimeout(paso, 34); }
+      })();
+    }
+    function limpiar2() {
+      Object.keys(NOD2).forEach(function (k) {
+        NOD2[k].classList.remove("on", "aprobado", "descartado");
+        var sb = NOD2[k].querySelector(".subn");
+        sb.textContent = sb.dataset.base;
+        sb.classList.remove("flash");
+      });
+      Object.keys(CAB2).forEach(function (k) { CAB2[k].classList.remove("hot", "lit"); });
+    }
+    function prender2(paso, veredicto, ultimo) {
+      var nodo = NOD2[paso[0]];
+      nodo.classList.add("on");
+      if (paso[1] && CAB2[paso[1]]) {
+        Object.keys(CAB2).forEach(function (k) {
+          if (CAB2[k].classList.contains("hot")) { CAB2[k].classList.remove("hot"); CAB2[k].classList.add("lit"); }
+        });
+        CAB2[paso[1]].classList.add("hot");
+      }
+      if (paso[2]) {
+        var sb = nodo.querySelector(".subn");
+        sb.textContent = paso[2];
+        sb.classList.add("flash");
+      }
+      if (ultimo) nodo.classList.add(veredicto);
+      mover2(nodo);
+    }
+
+    if (quieto) {
+      Object.keys(NOD2).forEach(function (k) { NOD2[k].classList.add("on"); });
+      if (req2) req2.textContent = ESC2[0].req;
+      setTimeout(function () {
+        Object.keys(CAB2).forEach(function (k) { CAB2[k].classList.add("lit"); });
+      }, 100);
+    } else {
+      var e2 = 0, p2 = 0, t2 = null;
+      var correr2 = function () {
+        if (!visible2 || document.hidden || pane2 !== "flow") { t2 = setTimeout(correr2, 700); return; }
+        var E = ESC2[e2];
+        if (p2 === 0) { limpiar2(); tipear2(E.req); }
+        if (p2 < E.pasos.length) {
+          prender2(E.pasos[p2], E.veredicto, p2 === E.pasos.length - 1);
+          p2++;
+          t2 = setTimeout(correr2, 1150);
+        } else {
+          e2 = (e2 + 1) % ESC2.length; p2 = 0;
+          t2 = setTimeout(correr2, 2900);
+        }
+      };
+      correr2();
+      Object.keys(NOD2).forEach(function (k) {          /* el canvas se puede tocar */
+        NOD2[k].style.cursor = "pointer";
+        NOD2[k].addEventListener("click", function () {
+          clearTimeout(t2); tid2++;
+          e2 = (k === "you") ? 1 : (k === "write" ? 2 : 0);
+          p2 = 0; correr2();
+        });
+      });
+    }
+  })();
+
   /* ================= micro-interacciones de cursor (solo puntero fino) ================= */
   if (matchMedia("(pointer: fine)").matches) {
     document.querySelectorAll(".card").forEach(function (c) {
@@ -1083,7 +1334,7 @@
       });
     });
     if (!quieto) {
-      document.querySelectorAll(".btn, .tab").forEach(function (b) {   /* magnéticos */
+      document.querySelectorAll(".btn, .tab, .tab2").forEach(function (b) {   /* magnéticos */
         b.addEventListener("mousemove", function (e) {
           var r = b.getBoundingClientRect();
           b.style.transform = "translate(" + ((e.clientX - r.left - r.width / 2) * 0.16).toFixed(1) + "px," + ((e.clientY - r.top - r.height / 2) * 0.22).toFixed(1) + "px)";
